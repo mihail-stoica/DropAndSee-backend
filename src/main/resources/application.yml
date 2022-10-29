@@ -1,0 +1,31 @@
+spring:
+  profiles:
+    active:
+      - dev
+  datasource:
+    url: jdbc:postgresql://localhost:5432/database_dropandsee
+    username: postgres
+    password: postgres
+    jpa:
+      properties:
+        hibernate:
+          dialect: org.hibernate.dialect.PostgreSQLDialect
+          format_sql: true
+      show-sql: true
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        show-sql: true
+      javax:
+        persistence:
+          validation:
+            mode: none
+  data:
+    web:
+      pageable:
+        default-page-size: 10
+        max-page-size: 100
