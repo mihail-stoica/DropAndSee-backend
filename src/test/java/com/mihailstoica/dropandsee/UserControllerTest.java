@@ -2,6 +2,7 @@ package com.mihailstoica.dropandsee;
 
 import com.mihailstoica.dropandsee.entity.User;
 import com.mihailstoica.dropandsee.repository.UserRepository;
+import com.mihailstoica.dropandsee.shared.GenericResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,8 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
+
+import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -46,5 +49,11 @@ public class UserControllerTest {
     public void postUser_whenUserIsValid_userSavedToDatabase() {
         testRestTemplate.postForEntity(API_1_0_USERS, user, Object.class);
         assertThat(userRepository.count()).isEqualTo(1);
+    }
+
+    @Test
+    public void postUser_whenUserIsValid_receiveSuccessMessage() {
+        ResponseEntity<GenericResponse> response = testRestTemplate.postForEntity(API_1_0_USERS, user, GenericResponse.class);
+        assertThat(Objects.requireNonNull(response.getBody()).getMessage()).isNotNull();
     }
 }
