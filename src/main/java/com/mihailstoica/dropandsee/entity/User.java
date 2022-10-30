@@ -3,6 +3,7 @@ package com.mihailstoica.dropandsee.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Data
 @Entity
@@ -17,13 +18,16 @@ public class User {
     )
     private Long id;
 
-    @Column(name = "user_name", nullable = false)
+    @Column(name = "user_name")
+    @NotNull
     private String userName;
 
-    @Column(name = "display_name", nullable = false)
+    @Column(name = "display_name")
+    @NotNull
     private String displayName;
 
-    @Column(name = "password", nullable = false)
+    @Column(name = "password")
+    @NotNull
     private String password;
 
 }

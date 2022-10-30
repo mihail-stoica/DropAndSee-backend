@@ -1,7 +1,6 @@
 package com.mihailstoica.dropandsee.controller;
 
 import com.mihailstoica.dropandsee.entity.User;
-import com.mihailstoica.dropandsee.error.UserNotValidException;
 import com.mihailstoica.dropandsee.service.UserService;
 import com.mihailstoica.dropandsee.shared.GenericResponse;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,9 +22,6 @@ public class UserController {
 
     @PostMapping
     public GenericResponse createUser(@Valid @RequestBody User user) {
-        if (user.getUserName() == null || user.getDisplayName() == null) {
-            throw new UserNotValidException();
-        }
         userService.saveUser(user);
         return new GenericResponse("User saved");
     }
