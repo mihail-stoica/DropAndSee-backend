@@ -14,6 +14,8 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -92,6 +94,71 @@ public class UserControllerTest {
     @Test
     public void postUser_whenUserHasNullPassword_receiveBadRequest() {
         user.setPassword(null);
+        ResponseEntity<Object> response = postSignup(user, Object.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+    }
+
+    @Test
+    public void postUser_whenUserHasUserNameWithLessThanRequired_receiveBadRequest() {
+        user.setUserName("abc");
+        ResponseEntity<Object> response = postSignup(user, Object.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+    }
+
+    @Test
+    public void postUser_whenUserHasDisplayNameWithLessThanRequired_receiveBadRequest() {
+        user.setDisplayName("abc");
+        ResponseEntity<Object> response = postSignup(user, Object.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+    }
+
+    @Test
+    public void postUser_whenUserHasPasswordWithLessThanRequired_receiveBadRequest() {
+        user.setPassword("abc");
+        ResponseEntity<Object> response = postSignup(user, Object.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+    }
+
+    @Test
+    public void postUser_whenUserHasUserNameWithMoreThanRequired_receiveBadRequest() {
+        String valueOf256Char = IntStream.range(0, 256).mapToObj(x -> "x").collect(Collectors.joining());
+        user.setUserName(valueOf256Char);
+        ResponseEntity<Object> response = postSignup(user, Object.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+    }
+
+    @Test
+    public void postUser_whenUserHasDisplayNameWithMoreThanRequired_receiveBadRequest() {
+        String valueOf256Char = IntStream.range(0, 256).mapToObj(x -> "x").collect(Collectors.joining());
+        user.setDisplayName(valueOf256Char);
+        ResponseEntity<Object> response = postSignup(user, Object.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+    }
+
+    @Test
+    public void postUser_whenUserHasPasswordWithMoreThanRequired_receiveBadRequest() {
+        String valueOf256Char = IntStream.range(0, 256).mapToObj(x -> "x").collect(Collectors.joining());
+        user.setPassword(valueOf256Char + "A1");
+        ResponseEntity<Object> response = postSignup(user, Object.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+    }
+
+    @Test
+    public void postUser_whenUserHasPasswordWithAllNumber_receiveBadRequest() {
+        user.setPassword("123456789");
+        ResponseEntity<Object> response = postSignup(user, Object.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+    }
+    @Test
+    public void postUser_whenUserHasPasswordWithAllLowerCase_receiveBadRequest() {
+        user.setPassword("alllowercase");
+        ResponseEntity<Object> response = postSignup(user, Object.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+    }
+
+    @Test
+    public void postUser_whenUserHasPasswordWithAllUpperCase_receiveBadRequest() {
+        user.setPassword("ALLUPPERCASE");
         ResponseEntity<Object> response = postSignup(user, Object.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     }
