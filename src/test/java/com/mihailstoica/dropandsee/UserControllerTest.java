@@ -1,6 +1,7 @@
 package com.mihailstoica.dropandsee;
 
 import com.mihailstoica.dropandsee.entity.User;
+import com.mihailstoica.dropandsee.error.ApiError;
 import com.mihailstoica.dropandsee.repository.UserRepository;
 import com.mihailstoica.dropandsee.shared.GenericResponse;
 import org.junit.jupiter.api.BeforeEach;
@@ -162,4 +163,19 @@ public class UserControllerTest {
         ResponseEntity<Object> response = postSignup(user, Object.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     }
+
+    @Test
+    public void postUser_whenUserIsInvalid_receiveApiError() {
+        user = new User();
+        ResponseEntity<ApiError> response = postSignup(user, ApiError.class);
+        assertThat(response.getBody().getUrl()).isEqualTo(API_1_0_USERS);
+    }
+
+    //ToDO: ApiErrorWithValidationErrors
+//    @Test
+//    public void postUser_whenUserIsInvalid_receiveApiErrorWithValidationErrors() {
+//        user = new User();
+//        ResponseEntity<ApiError> response = postSignup(user, ApiError.class);
+//        assertThat(response.getBody().getValidationErrors().size()).isEqualTo(3);
+//    }
 }
