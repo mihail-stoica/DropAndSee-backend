@@ -21,19 +21,19 @@ public class User {
     private Long id;
 
     @Column(name = "user_name")
-    @NotNull
+    @NotNull(message = "{dropandsee.constraints.username.NotNull.message}")
     @Size(min = 4, max = 255)
     private String userName;
 
     @Column(name = "display_name")
-    @NotNull
+    @NotNull(message = "{dropandsee.constraints.displayname.NotNull.message}")
     @Size(min = 4, max = 255)
     private String displayName;
 
     @Column(name = "password")
-    @NotNull
+    @NotNull(message = "{dropandsee.constraints.password.NotNull.message}")
     @Size(min = 8, max = 255)
-    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$", message= "Password should have one uppercase letter and one number")
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$", message= "{dropandsee.constraints.password.Pattern.message}")
     private String password;
 
 }
