@@ -1,5 +1,6 @@
 package com.mihailstoica.dropandsee.entity;
 
+import com.mihailstoica.dropandsee.validator.UniqueUserName;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -23,6 +24,7 @@ public class User {
     @Column(name = "user_name")
     @NotNull(message = "{dropandsee.constraints.username.NotNull.message}")
     @Size(min = 4, max = 255)
+    @UniqueUserName
     private String userName;
 
     @Column(name = "display_name")

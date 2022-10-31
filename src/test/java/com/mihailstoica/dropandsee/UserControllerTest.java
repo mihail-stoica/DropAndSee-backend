@@ -39,6 +39,7 @@ public class UserControllerTest {
         userRepository.deleteAll();
         testRestTemplate.getRestTemplate().getInterceptors().clear();
     }
+
     public <T> ResponseEntity<T> postSignup(Object request, Class<T> response) {
         return testRestTemplate.postForEntity(API_1_0_USERS, request, response);
     }
@@ -212,12 +213,23 @@ public class UserControllerTest {
 
     @Test
     public void postUser_whenAnotherUserHasSameUsername_receiveBadRequest() {
+        userRepository.save(TestUtil.createValidUser());
+
         User user = TestUtil.createValidUser();
-        userRepository.save(user);
-        User user1 = TestUtil.createValidUser();
-        ResponseEntity<Object> response = postSignup(user1, Object.class);
+        ResponseEntity<Object> response = postSignup(user, Object.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     }
+
+    @Test
+    public void postUser_whenAnotherUserHasSameUsername_receiveMessageOfDuplicateUserName() {
+        userRepository.save(TestUtil.createValidUser());
+
+        User user = TestUtil.createValidUser();
+        ResponseEntity<ApiError> response = postSignup(user, ApiError.class);
+        Map<String, String> validationErrors = response.getBody().getValidationErrors();
+        assertThat(validationErrors.get("userName")).isEqualTo("This name is in use");
+    }
+
 
     @Test
     public void postUser_whenUserHasNullPassword_receiveGenericMessageOfNullError() {
