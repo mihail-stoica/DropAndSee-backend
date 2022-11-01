@@ -55,5 +55,11 @@ public class LoginControllerTest {
         assertThat(response.getBody().contains("validationErrors")).isFalse();
     }
 
+    @Test
+    public void postLogin_withIncorrectCredentials_receiveUnauthorizedWithoutWWWAuthenticationHeader() {
+        authenticate();
+        ResponseEntity<Object> response = login(Object.class);
+        assertThat(response.getHeaders().containsKey("WWW-Authenticate")).isFalse();
+    }
 
 }
