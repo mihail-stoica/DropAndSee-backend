@@ -27,20 +27,7 @@ public class ErrorHandler implements ErrorController {
         String url = (String) attributes.get("path");
         int status = (Integer) attributes.get("status");
 
-        ApiError error = new ApiError(status, message, url);
-
-        //ToDo: ApiErrorWithValidationErrors
-        /*if (attributes.containsKey("error")) {
-            @SuppressWarnings("unchecked")
-            List<FieldError> fieldErrors = (List<FieldError>) attributes.get("errors");
-            Map<String, String> validationErrors = new HashMap<>();
-            for (FieldError fieldError : fieldErrors) {
-                validationErrors.put(fieldError.getField(), fieldError.getDefaultMessage());
-            }
-            error.setValidationErrors(validationErrors);
-        }*/
-
-        return error;
+        return new ApiError(status, message, url);
     }
 
 }
