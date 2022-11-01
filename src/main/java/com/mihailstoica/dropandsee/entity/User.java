@@ -1,6 +1,6 @@
 package com.mihailstoica.dropandsee.entity;
 
-import com.mihailstoica.dropandsee.validator.UniqueUserName;
+import com.mihailstoica.dropandsee.validator.UniqueUsername;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -15,9 +15,7 @@ import java.util.Collection;
 
 @Data
 @Entity
-@Table(
-        name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_name"})}
-)
+@Table(name = "users")
 public class User implements UserDetails {
 
     @Id
@@ -29,8 +27,8 @@ public class User implements UserDetails {
     @Column(name = "user_name")
     @NotNull(message = "{dropandsee.constraints.username.NotNull.message}")
     @Size(min = 4, max = 255)
-    @UniqueUserName
-    private String userName;
+    @UniqueUsername
+    private String username;
 
     @Column(name = "display_name")
     @NotNull(message = "{dropandsee.constraints.displayname.NotNull.message}")
@@ -47,11 +45,6 @@ public class User implements UserDetails {
     @Transient
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return AuthorityUtils.createAuthorityList("Role_USER");
-    }
-
-    @Override
-    public String getUsername() {
-        return userName;
     }
 
     @Override

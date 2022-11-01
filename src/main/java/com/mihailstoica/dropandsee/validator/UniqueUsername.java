@@ -1,6 +1,6 @@
 package com.mihailstoica.dropandsee.validator;
 
-import com.mihailstoica.dropandsee.validator.impl.UniqueUserNameValidatorImpl;
+import com.mihailstoica.dropandsee.validator.impl.UniqueUsernameValidatorImpl;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -9,12 +9,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Constraint(validatedBy = UniqueUserNameValidatorImpl.class)
+@Constraint(validatedBy = UniqueUsernameValidatorImpl.class)
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface UniqueUserName {
+public @interface UniqueUsername {
 
-    String message() default "{dropandsee.constraints.username.UniqueUserName.message}";
+    String message() default "{dropandsee.constraints.username.UniqueUsername.message}";
 
     Class<?>[] groups() default { };
 

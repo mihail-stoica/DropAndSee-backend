@@ -82,7 +82,7 @@ public class UserControllerTest {
     @Test
     public void postUser_whenUserHasNullUserName_receiveBadRequest() {
         User user = TestUtil.createValidUser();
-        user.setUserName(null);
+        user.setUsername(null);
         ResponseEntity<Object> response = postSignup(user, Object.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     }
@@ -106,7 +106,7 @@ public class UserControllerTest {
     @Test
     public void postUser_whenUserHasUserNameWithLessThanRequired_receiveBadRequest() {
         User user = TestUtil.createValidUser();
-        user.setUserName("abc");
+        user.setUsername("abc");
         ResponseEntity<Object> response = postSignup(user, Object.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     }
@@ -131,7 +131,7 @@ public class UserControllerTest {
     public void postUser_whenUserHasUserNameWithMoreThanRequired_receiveBadRequest() {
         User user = TestUtil.createValidUser();
         String valueOf256Char = IntStream.range(0, 256).mapToObj(x -> "x").collect(Collectors.joining());
-        user.setUserName(valueOf256Char);
+        user.setUsername(valueOf256Char);
         ResponseEntity<Object> response = postSignup(user, Object.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     }
@@ -196,19 +196,19 @@ public class UserControllerTest {
     @Test
     public void postUser_whenUserHasNullUserName_receiveMessageOfNullErrorForUserName() {
         User user = TestUtil.createValidUser();
-        user.setUserName(null);
+        user.setUsername(null);
         ResponseEntity<ApiError> response = postSignup(user, ApiError.class);
         Map<String, String> validationErrors = response.getBody().getValidationErrors();
-        assertThat(validationErrors.get("userName")).isEqualTo("Username cannot be null");
+        assertThat(validationErrors.get("username")).isEqualTo("Username cannot be null");
     }
 
     @Test
     public void postUser_whenUserHasInvalidLengthUsername_receiveGenericMessageOfSizeError() {
         User user = TestUtil.createValidUser();
-        user.setUserName("abc");
+        user.setUsername("abc");
         ResponseEntity<ApiError> response = postSignup(user, ApiError.class);
         Map<String, String> validationErrors = response.getBody().getValidationErrors();
-        assertThat(validationErrors.get("userName")).isEqualTo("It must have minimum 4 and maximum 255 characters");
+        assertThat(validationErrors.get("username")).isEqualTo("It must have minimum 4 and maximum 255 characters");
     }
 
     @Test
@@ -227,7 +227,7 @@ public class UserControllerTest {
         User user = TestUtil.createValidUser();
         ResponseEntity<ApiError> response = postSignup(user, ApiError.class);
         Map<String, String> validationErrors = response.getBody().getValidationErrors();
-        assertThat(validationErrors.get("userName")).isEqualTo("This name is in use");
+        assertThat(validationErrors.get("username")).isEqualTo("This name is in use");
     }
 
 

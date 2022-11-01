@@ -2,13 +2,13 @@ package com.mihailstoica.dropandsee.validator.impl;
 
 import com.mihailstoica.dropandsee.entity.User;
 import com.mihailstoica.dropandsee.repository.UserRepository;
-import com.mihailstoica.dropandsee.validator.UniqueUserName;
+import com.mihailstoica.dropandsee.validator.UniqueUsername;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class UniqueUserNameValidatorImpl implements ConstraintValidator<UniqueUserName, String> {
+public class UniqueUsernameValidatorImpl implements ConstraintValidator<UniqueUsername, String> {
 
     @Autowired
     UserRepository userRepository;
@@ -16,7 +16,7 @@ public class UniqueUserNameValidatorImpl implements ConstraintValidator<UniqueUs
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
 
-        User inDB = userRepository.findByUserName(value);
+        User inDB = userRepository.findByUsername(value);
         if(inDB == null) {
             return true;
         }
