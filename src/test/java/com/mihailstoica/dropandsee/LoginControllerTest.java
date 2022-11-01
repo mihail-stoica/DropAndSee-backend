@@ -1,6 +1,9 @@
 package com.mihailstoica.dropandsee;
 
 import com.mihailstoica.dropandsee.error.ApiError;
+import com.mihailstoica.dropandsee.repository.UserRepository;
+import com.mihailstoica.dropandsee.service.UserService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,6 +23,18 @@ public class LoginControllerTest {
 
     @Autowired
     private TestRestTemplate testRestTemplate;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private UserService userService;
+
+    @BeforeEach
+    public void cleanup() {
+        userRepository.deleteAll();
+        testRestTemplate.getRestTemplate().getInterceptors().clear();
+    }
 
     public <T> ResponseEntity<T> login(Class<T> responseType){
         return testRestTemplate.postForEntity(API_1_0_LOGIN, null, responseType);
@@ -61,5 +76,14 @@ public class LoginControllerTest {
         ResponseEntity<Object> response = login(Object.class);
         assertThat(response.getHeaders().containsKey("WWW-Authenticate")).isFalse();
     }
+
+    @Test
+    public void postLogin_withValidCredentials_receiveOk() {
+        userService.saveUser(TestUtil.createValidUser());
+        authenticate();
+        ResponseEntity<Object> response = login(Object.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
+
 
 }
