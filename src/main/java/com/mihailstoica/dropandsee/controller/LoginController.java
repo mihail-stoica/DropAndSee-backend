@@ -6,14 +6,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collections;
-import java.util.Map;
-
 @RestController
 @RequestMapping("/api/1.0/login")
 public class LoginController {
     @PostMapping
-    public Map<String, Object> handleLogin(@CurrentUser User loggedInUser) {
-        return Collections.singletonMap("id", loggedInUser.getId());
+    User handleLogin(@CurrentUser User loggedInUser) {
+        User user = new User();
+        user.setId(loggedInUser.getId());
+        user.setUsername(loggedInUser.getUsername());
+        user.setDisplayName(loggedInUser.getDisplayName());
+        user.setImage(loggedInUser.getImage());
+        return user;
     }
 }

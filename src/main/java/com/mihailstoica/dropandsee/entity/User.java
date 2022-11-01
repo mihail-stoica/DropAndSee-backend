@@ -41,6 +41,8 @@ public class User implements UserDetails {
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$", message= "{dropandsee.constraints.password.Pattern.message}")
     private String password;
 
+    private String image;
+
     @Override
     @Transient
     public Collection<? extends GrantedAuthority> getAuthorities() {
